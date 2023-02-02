@@ -17,11 +17,11 @@ mongoose
     // Before adding any recipes to the database, let's remove all existing ones
     return Recipe.deleteMany()
   })
-  .then(() => {
-    // Run your code here, after you have insured that the connection was made
-    console.log('Recipies Database Connected')
-    closeConnection();
-  })
+  .then(() => createOne())
+  .then(() => createMany())
+  .then(() => findOne())
+  .then(() => deleteOne())
+  .then(() => closeConnection())
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
@@ -45,7 +45,6 @@ const createOne = async () => {
     console.log(err)
   }
 }
-
 
 const createMany = async () => {
   try{
@@ -77,10 +76,6 @@ const deleteOne = async () => {
 
 const closeConnection = async () => {
   try {
-    const first = await createOne();
-    const second = await createMany();
-    const third = await findOne();
-    const fourth = await deleteOne();
     const closeConnection = await mongoose.connection.close()
   } catch(err) {
     console.log(err)
